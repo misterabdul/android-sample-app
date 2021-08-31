@@ -8,8 +8,7 @@ jobs:
       - checkout
       - run: |
           ./gradlew init
-          ./gradlew :app:bundleRelease
-          ls -lah $(pwd)/app/build/outputs
+          ./gradlew :app:bundleRelease && cp $(pwd)/app/build/outputs /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
 
