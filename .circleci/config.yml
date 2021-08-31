@@ -1,6 +1,17 @@
 version: 2.1
 
 jobs:
+  build:
+    docker:
+      - image: misterabdul/android-build-environment:0.0.1-alpine
+    steps:
+      - checkout
+      - run: |
+          ./gradlew init
+          ./gradlew :app:assembleRelease
+          cp -r $(pwd)/app/build/outputs/apk/* /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
   build-bundle:
     docker:
       - image: misterabdul/android-build-environment:0.0.1-alpine
@@ -15,6 +26,7 @@ jobs:
 
 workflows:
   version: 2
-  build-bundle:
+  build-all:
     jobs:
+      - build
       - build-bundle
