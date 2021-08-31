@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build-bundle:
     docker:
       - image: misterabdul/android-build-environment:0.0.1-alpine
     steps:
@@ -9,12 +9,12 @@ jobs:
       - run: |
           ./gradlew init
           ./gradlew :app:bundleRelease
-          cp app/build/outputs/bundle/release /tmp/artifacts
+          cp $(pwd)/app/build/outputs/bundle/release /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
 
 workflows:
   version: 2
-  build-and-test:
+  build-bundle:
     jobs:
       - build
